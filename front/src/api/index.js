@@ -3,6 +3,7 @@
 
 import usuarios from "../data/usuarios.json"
 import carreras from "../data/carreras.json"
+import reviews from "../data/reviews.json"
 
 export function loginUser(usuario) {
   console.log(usuarios)
@@ -15,5 +16,10 @@ export function registerUser(usuario) {
 }
 
 export function getCarreraByID(id) {
+  console.log(carreras.find(c => c.id === id))
   return carreras.find(c => c.id === id)
+}
+
+export function getReviewsByCarrera(carreraNombre) {
+  return reviews.filter((r) => r.carrera === carreraNombre)
 }

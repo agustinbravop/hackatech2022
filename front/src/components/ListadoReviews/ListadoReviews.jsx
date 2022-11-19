@@ -1,11 +1,13 @@
 import React  from "react";
 import CardReview from "../CardReview/CardReview";
-import reviews from "../../data/reviews.json";
+import { useParams } from "react-router-dom";
+import { getCarreraByID, getReviewsByCarrera } from "../../api";
 
-
-
-export default function ListadoReviews({}) {
-  const { id_carreras } = useParams;
+export default function ListadoReviews() {
+  const { id_carrera } = useParams();
+  console.log(id_carrera)
+  const carrera = getCarreraByID(parseInt(id_carrera))
+  const reviews = getReviewsByCarrera(carrera.nombre)
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -17,9 +19,9 @@ export default function ListadoReviews({}) {
           margin: "30px 0",
         }}
       >
-        {id_carreras.nombre }
+        {carrera.universidad }
       </h1>
-      <h2 style={{ fontSize: "2rem", color: "var(--colorUno)" }}>Carrera</h2>
+      <h2 style={{ fontSize: "2rem", color: "var(--colorUno)" }}>{carrera.nombre}</h2>
       
       {reviews.map((review, idx) => (
         <CardReview key={idx} review={review} />

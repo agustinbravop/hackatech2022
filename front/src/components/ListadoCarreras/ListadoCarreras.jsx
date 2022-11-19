@@ -6,8 +6,8 @@ import CardCarrera from "../CardCarrera/CardCarrera";
 export default function ListadoCarreras() {
   return (
     <div className="listado-carreras">
-      {carreras.map((carrera, idx) => (
-        <CardCarrera key={idx} carrera={carrera} />
+      {carreras.map((carrera) => (
+        <CardCarrera key={carrera.id} carrera={carrera} />
       ))}
     </div>
   );
