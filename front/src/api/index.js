@@ -2,6 +2,7 @@
 // Esto sirve para prototipar si es que el backend no funciona.
 
 import usuarios from "../data/usuarios.json"
+import carreras from "../data/carreras.json"
 
 export function loginUser(usuario) {
   console.log(usuarios)
@@ -11,4 +12,8 @@ export function loginUser(usuario) {
 export function registerUser(usuario) {
   usuarios.push(usuario)
   console.log(usuarios)
+}
+
+export function getCarreraByID(id) {
+  return carreras.find(c => c.id === id)
 }
