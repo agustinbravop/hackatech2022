@@ -5,7 +5,7 @@ export default function CardReview({ review}) {
   const fecha =new Date(review.fecha)
   return (
     <div className="review">
-      <p>Fecha de creación - { fecha.getDay() + '/'+ (fecha.getMonth()+1) + '/' + fecha.getFullYear()}</p>
+      <p>Fecha de creación - { fecha.getDate() + '/'+ (fecha.getMonth()+1) + '/' + fecha.getFullYear()}</p>
       <div><p>
         Estudiante: 
       </p><span>{review.username}</span></div>
