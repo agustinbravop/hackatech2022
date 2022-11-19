@@ -1,8 +1,11 @@
-import React from "react";
+import React  from "react";
 import CardReview from "../CardReview/CardReview";
 import reviews from "../../data/reviews.json";
 
-export default function ListadoReviews() {
+
+
+export default function ListadoReviews({}) {
+  const { id_carreras } = useParams;
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -14,7 +17,7 @@ export default function ListadoReviews() {
           margin: "30px 0",
         }}
       >
-        Facultad
+        {id_carreras.nombre }
       </h1>
       <h2 style={{ fontSize: "2rem", color: "var(--colorUno)" }}>Carrera</h2>
       
