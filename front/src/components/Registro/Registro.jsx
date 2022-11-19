@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import { environment } from "../../constants";
 import "./Registro.css";
+import { registerUser } from "../../api";
 
 const TextInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -57,8 +58,6 @@ const PasswordInput = ({ label, ...props }) => {
 };
 
 function Registro() {
-  const { BASE_URL } = environment;
-  const { authenticate } = useContext(AuthContext);
   const history = useHistory();
   const [badRequestMsg, setBadRequestMsg] = useState("");
 
@@ -98,32 +97,8 @@ function Registro() {
             universidad: values.universidad,
           };
 
-          const settings = {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify(usuario),
-          };
-
-          try {
-            // POST con los datos del usuario
-            const res = await fetch(`${BASE_URL}/registro`, settings);
-            const data = await res.json();
-
-            if (data.jwt) {
-              // Si devuelve un token lo guardo en Storage y Context
-              authenticate(data);
-              // Redirección a Home
-              history.push("/login");
-            } else {
-              // Feedback de error
-              setBadRequestMsg(data.message);
-            }
-          } catch (err) {
-            setBadRequestMsg("Error al intentar crear la cuenta");
-            console.error(err);
-          }
+          registerUser(usuario);
+          history.push("/");
         }}
       >
         <Form className="form-registro">

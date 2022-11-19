@@ -1,16 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
-import { AuthContext } from "../../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import { environment } from "../../constants";
 import "./Login.css";
+import { loginUser } from "../../api";
 
 const TextInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   const [field, meta] = useField(props);
   const isBad = meta.touched && meta.error;
-  
+
   return (
     <div className="form-group">
       <label className="label-required" htmlFor={props.id}>
@@ -57,8 +56,6 @@ const PasswordInput = ({ label, ...props }) => {
 };
 
 const Login = () => {
-  const { BASE_URL } = environment;
-  const { authenticate } = useContext(AuthContext);
   const history = useHistory();
   const [badRequestMsg, setBadRequestMsg] = useState("");
   let forwardUrl = "/";
@@ -81,40 +78,17 @@ const Login = () => {
             .min(6, "La contraseña debe tener más de 6 caracteres")
             .required("Este campo es obligatorio"),
         })}
-
         onSubmit={async (values) => {
           // Valores capturados del form
           const usuario = {
             email: values.email,
-            contrasena: values.password,
+            password: values.password,
           };
 
-          const settings = {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify(usuario),
-          };
-
-          try {
-            // POST con los datos del usuario
-            const res = await fetch(`${BASE_URL}/login`, settings);
-            const data = await res.json();
-            if (data.jwt) {
-              // Si devuelve un token lo guardo en Storage y Context
-              authenticate(data);
-              // Redirección a Home
-              history.push(forwardUrl);
-            } else {
-              // Feedback de que el usuario no existe
-              setBadRequestMsg(
-                "Sus credenciales son inválidas. Por favor, vuelva a intentarlo"
-              );
-            }
-          } catch (err) {
-            setBadRequestMsg("Error al intentar iniciar sesión")
-            console.error(err);
+          if (loginUser(usuario) !== undefined) {
+            history.push(forwardUrl);
+          } else {
+            setBadRequestMsg("Error al intentar iniciar sesión");
           }
         }}
       >
