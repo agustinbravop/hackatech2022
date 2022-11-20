@@ -77,34 +77,6 @@ function FormCrearReview() {
             nivelCurso: values.nivelCurso,
             dificultad: values.dificultad,
           };
-
-          const settings = {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify(usuario),
-          };
-
-          try {
-            // POST con los datos del usuario
-            const res = await fetch(
-              `${BASE_URL}/carreras/${1}/reviews/`,
-              settings
-            );
-            const data = await res.json();
-
-            if (data.status === 200) {
-              // Redirección a Home
-              history.push("/");
-            } else {
-              // Feedback de error
-              setBadRequestMsg(data.message);
-            }
-          } catch (err) {
-            setBadRequestMsg("Error al intentar crear la reseña");
-            console.error(err);
-          }
         }}
       >
         <Form className="form-crear-review">
